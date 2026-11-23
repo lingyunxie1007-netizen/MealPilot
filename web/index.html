@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fcfaf4">
+  <title>MealPilot · 点餐助手</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"><i></i></span>MealPilot<span class="brand-dot">.</span></div>
+    <div class="nav-actions"><span id="status" role="status">待连接</span><button id="settings" class="icon-button" aria-label="设置访问密钥" title="设置访问密钥"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="12" r="4"/><path d="M12 12h9m-3 0v3m-3-3v2"/></svg></button></div>
+  </header>
+  <main>
+    <div class="toolbar"><span id="conversation-title">点餐对话</span><button id="new-chat" class="quiet"><span aria-hidden="true">＋</span> 新对话</button></div>
+    <div id="scroll-area" tabindex="-1">
+      <section id="welcome">
+        <div class="hero">
+          <div class="hero-copy"><h1>这顿，<br><span>想吃点什么？</span></h1><p>告诉我预算、口味或营养目标，<br class="desktop-break">一起挑一份合适的麦当劳餐点。</p></div>
+          <div class="food-print" role="img" aria-label="复古插画，绿色餐盘上的芝士汉堡和薯条">
+            <div class="tray"><div class="liner"></div></div>
+            <div class="fries"><b></b><b></b><b></b><b></b><b></b><i></i></div>
+            <div class="burger"><i class="bottom"></i><i class="patty"></i><i class="cheese"></i><i class="lettuce"></i><i class="bun"><b></b><b></b><b></b><b></b><b></b><b></b></i></div>
+            <div class="spark s1">✦</div><div class="spark s2">✧</div>
+          </div>
+        </div>
+        <h2>按时段挑一餐</h2>
+        <div class="starters">
+          <button data-prompt="推荐一份 20 元以内、含蛋白质的早餐。"><span class="glyph" aria-hidden="true">☀</span>早餐<span class="arrow">↗</span></button>
+          <button data-prompt="午餐预算 30 元，想吃汉堡，帮我比较两种搭配。"><span class="glyph" aria-hidden="true">◉</span>午餐<span class="arrow">↗</span></button>
+          <button data-prompt="想找一份下午茶，小食和饮品合计 20 元以内。"><span class="glyph" aria-hidden="true">☕</span>下午茶<span class="arrow">↗</span></button>
+          <button data-prompt="晚餐想吃高蛋白的组合，请比较热量和实付价格。"><span class="glyph" aria-hidden="true">◒</span>晚餐<span class="arrow">↗</span></button>
+          <button data-prompt="帮我看看夜宵外送有哪些可售餐点，预算包含配送费。"><span class="glyph" aria-hidden="true">☾</span>夜宵<span class="arrow">↗</span></button>
+        </div>
+      </section>
+      <div id="messages" role="log" aria-label="对话记录" aria-live="polite"></div>
+    </div>
+    <div class="store-bar"><button id="choose-store" class="quiet" type="button" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="store-label">选择门店</span></button><button id="clear-store" class="quiet" type="button" hidden>清除</button></div>
+    <form id="composer"><label class="sr-only" for="prompt">你的点餐需求</label><textarea rows="2" id="prompt" maxlength="12000" placeholder="说说你想怎么吃……"></textarea><button id="send" type="submit" aria-label="发送消息" title="发送消息"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-7 7 7-7 7 7"/></svg></button></form>
+  </main>
+  <dialog id="store-dialog" aria-labelledby="store-title">
+    <div class="dialog-header"><h2 id="store-title">选择附近门店</h2><button id="close-store" type="button" class="icon-button" aria-label="关闭门店选择">×</button></div>
+    <form id="store-search" novalidate>
+      <fieldset class="store-types"><legend class="sr-only">就餐方式</legend><label><input type="radio" name="beType" value="1" checked>到店取餐</label><label><input type="radio" name="beType" value="5">得来速</label></fieldset>
+      <p class="store-hint">外送门店按收餐地址匹配，可在对话中查询。</p>
+      <div class="store-fields"><label>城市<input id="store-city" placeholder="例如：惠州" required maxlength="60"></label><label>门店或地点<input id="store-keyword" placeholder="例如：惠州西湖" required maxlength="120"></label></div>
+      <div class="store-actions"><button class="confirm" type="submit">搜索门店</button><button id="locate-store" class="quiet" type="button">使用当前位置</button></div>
+    </form>
+    <p id="store-feedback" role="status"></p><ul id="store-results" aria-label="搜索结果"></ul>
+  </dialog>
+  <dialog id="auth-dialog"><form id="auth-form"><div class="dialog-header"><h2>连接 MealPilot</h2><button type="button" id="close-auth" class="icon-button" aria-label="关闭">×</button></div><label for="access-key">输入 .env 中 MEALPILOT_ACCOUNTS 的 apiKey</label><input type="password" id="access-key" autocomplete="off" required><p id="auth-error" role="alert"></p><button class="confirm" type="submit">连接服务</button></form></dialog>
+</body>
+</html>
+
